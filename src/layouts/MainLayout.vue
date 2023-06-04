@@ -11,6 +11,6 @@
 </script>
 <style scoped>
   .q-page-container{
-    margin: 2rem;
+    margin: 4rem;
   }
 </style>

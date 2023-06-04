@@ -6,13 +6,15 @@
         abc
       </q-btn>
     </div>
-    <div class="col-10 box">
-      <DiceView></DiceView>
+    <div class="col-10">
+      <DiceView class="box"></DiceView>
+      <ActionView class="box"></ActionView>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
+import ActionView from 'src/components/ActionView.vue';
 import DiceView from 'src/components/DiceView.vue';
 
 </script>
@@ -20,8 +22,5 @@ import DiceView from 'src/components/DiceView.vue';
 <style scoped>
 h2 {
   text-align: center;
-}
-.box {
-  border:2px solid;
 }
 </style>
