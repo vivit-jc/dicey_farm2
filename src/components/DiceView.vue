@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="box col">
+  <div class="row box">
+    <div class="col">
       <div>
         1 / 8 ターン目<br/>
         アクション 0 / 2<br/>
@@ -12,8 +12,8 @@
         <q-btn>ターンの最初からやり直す</q-btn>
       </div>
     </div>
-    <div class="box col">
-      <h2>{{ selectedAction.name }}</h2>
+    <div class="col">
+      <p class="action">{{ selectedAction.name }}</p>
       <p>{{ selectedAction.text }}</p>
     </div>
   </div>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
   import { ref,watch } from 'vue'
-  import useMainStore from '../stores/main-store'
+  import { useMainStore } from '../stores/main-store'
   import d1 from 'assets/d1.png'
   import d2 from 'assets/d2.png'
   import d3 from 'assets/d3.png'
@@ -31,6 +31,14 @@
 
   const dice = ref([1,2,3,4,5,6])
   let store = useMainStore();
+  let selectedAction = ref(store.selectedAction)
+
+  watch(
+    () => store.selectedAction,
+    (newValue) => {
+      selectedAction.value = newValue
+    },
+  )
 
   function dice_img(num:number){
     return [d1,d2,d3,d4,d5,d6][num-1]

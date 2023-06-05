@@ -7,8 +7,12 @@
       </q-btn>
     </div>
     <div class="col-10">
-      <DiceView class="box"></DiceView>
-      <ActionView class="box"></ActionView>
+      <DiceView></DiceView>
+      <ActionView></ActionView>
+      <MarchantView></MarchantView>
+      <FieldsView></FieldsView>
+      <FacilityView></FacilityView>
+      <WorkerView></WorkerView>
     </div>
   </q-page>
 </template>
@@ -16,10 +20,17 @@
 <script setup lang="ts">
 import ActionView from 'src/components/ActionView.vue';
 import DiceView from 'src/components/DiceView.vue';
+import MarchantView from 'src/components/MarchantView.vue';
+import FieldsView from 'src/components/FieldsView.vue';
+import FacilityView from 'src/components/FacilityView.vue';
+import WorkerView from 'src/components/WorkerView.vue';
 
 </script>
 
 <style scoped>
+main {
+  min-height: 0% !important;
+}
 h2 {
   text-align: center;
 }
