@@ -2,7 +2,7 @@
   <div class="box">
     <div>設備</div>
     <div class="row">
-      <q-card v-for="facility,n in facilities" :key="facility.name" @click="clickFacility(n)">
+      <q-card v-for="facility,n in facilities" :key="facility.name" @click="clickFacility(n)" class="card">
         {{ facility.name }}<br/>
         {{ facility.text }}
       </q-card>

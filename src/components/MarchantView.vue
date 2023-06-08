@@ -2,7 +2,7 @@
   <div class="box">
     <div>商人</div>
     <div class="row">
-      <q-card v-for="item,n in items" :key="item.name" class="item">
+      <q-card v-for="item,n in items" :key="item.name" class="item card">
         <q-img :src="dice_img(n+1)" class="die" />
         {{ item.name }}x{{ item.num }}
       </q-card>

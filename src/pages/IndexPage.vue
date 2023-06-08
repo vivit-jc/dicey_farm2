@@ -1,10 +1,11 @@
 <template>
   <h2>Dicey Farm 2</h2>
   <q-page class="row items-center justify-evenly">
-    <div class="col-2 box">
+    <div class="col-2">
       <q-btn>
         abc
       </q-btn>
+      <ResourceView></ResourceView>
     </div>
     <div class="col-10">
       <DiceView></DiceView>
@@ -24,6 +25,8 @@ import MarchantView from 'src/components/MarchantView.vue';
 import FieldsView from 'src/components/FieldsView.vue';
 import FacilityView from 'src/components/FacilityView.vue';
 import WorkerView from 'src/components/WorkerView.vue';
+import ResourceView from 'src/components/ResourceView.vue';
+
 
 </script>
 
