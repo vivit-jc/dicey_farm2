@@ -1,34 +1,24 @@
 <template>
-  <div class="row box">
-    <div class="col">
-      <div>
-        1 / 8 ターン目<br />
-        アクション 0 / 2<br />
-      </div>
-      <div
-        class="row dice"
-        :class="{ selecting: store.gamestate == 'selectingDie' }"
-      >
-        <q-img
-          v-for="(die, i) in dice"
-          :key="die"
-          :src="dice_img(die)"
-          class="die"
-          @click="clickDie(i)"
-          st
-        />
-      </div>
-      <div>
-        <q-btn>ターンの最初からやり直す</q-btn>
-      </div>
+  <div class="box">
+    <div>
+      1 / 8 ターン目<br />
+      アクション {{ actionPoint }} / 2<br />
     </div>
-    <div class="col relbox" v-if="selectedAction.name">
-      <p class="action">{{ selectedAction.name }}</p>
-      <p>{{ selectedAction.text }}</p>
-      <q-btn class="cancel" @click="cancelAction">✗</q-btn>
+    <div
+      class="row dice"
+      :class="{ selecting: store.gamestate == 'selectingDie' }"
+    >
+      <q-img
+        v-for="(die, i) in dice"
+        :key="i"
+        :src="dice_img(die)"
+        class="die"
+        @click="clickDie(i)"
+        st
+      />
     </div>
-    <div class="col" v-else>
-      <p class="action">クエストの表示</p>
+    <div>
+      <q-btn>ターンの最初からやり直す</q-btn>
     </div>
   </div>
 </template>
@@ -36,6 +26,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useMainStore } from '../stores/main-store';
+import { Notify } from 'quasar';
 import d1 from 'assets/d1.png';
 import d2 from 'assets/d2.png';
 import d3 from 'assets/d3.png';
@@ -46,33 +37,46 @@ import d6 from 'assets/d6.png';
 let dice = ref([] as number[]);
 let store = useMainStore();
 let selectedAction = ref({} as Card);
+let actionPoint = ref(store.actionPoint);
 
 for (let i = 0; i < store.dealDice; i++) {
   dice.value.push(Math.floor(Math.random() * 6) + 1);
 }
 
 watch(
-  () => store.selectedAction,
+  // string,numberなど単独の値はgetterじゃないとエラーになるっぽい
+  () => store.actionPoint,
   (newValue) => {
-    selectedAction.value = newValue;
+    actionPoint.value = newValue;
   }
 );
+
+watch(store.selectedAction, (newValue) => {
+  selectedAction.value = newValue;
+});
 
 function clickDie(i: number) {
   let die = dice.value[i];
   if (store.gamestate == 'selectingDie') {
-    if (store.selectedAction.name == '釣り') {
+    const action = store.selectedAction.name;
+    if (action == '釣り') {
       store.resources.fish.num += die;
       store.selectedAction.name = '';
       store.gamestate = '';
+      store.actionPoint -= 1;
+    } else if (action == '畑を耕す') {
+      if (store.dieForField == 0) {
+        store.fields.push('空き');
+        store.dieForField = die;
+      } else if (store.dieForField == die) {
+        store.fields.push('空き');
+      } else {
+        Notify.create('同じダイスである必要があります');
+        return false;
+      }
     }
     dice.value.splice(i, 1);
   }
-}
-
-function cancelAction() {
-  selectedAction.value.name = '';
-  store.gamestate = '';
 }
 
 function dice_img(num: number) {

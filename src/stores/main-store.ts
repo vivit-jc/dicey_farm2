@@ -6,6 +6,8 @@ export const useMainStore = defineStore('main', {
     selectedDie: 0,
     dealDice: 5,
     gamestate: '',
+    dieForField: 0,
+    actionPoint: 2,
     resources: {
       food: { j: '食料', num: 0 } as Resource,
       fish: { j: '魚', num: 0 } as Resource,
@@ -15,6 +17,7 @@ export const useMainStore = defineStore('main', {
       egg: { j: '卵', num: 0 } as Resource,
       milk: { j: '牛乳', num: 0 } as Resource,
     },
+    fields: ['空き'] as string[],
   }),
   /*
   getters: {

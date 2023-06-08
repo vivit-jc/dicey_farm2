@@ -34,8 +34,13 @@ const actions = [
 ];
 
 function clickAction(action: Card) {
+  if (store.gamestate != '') {
+    return false;
+  }
   store.selectedAction = { name: action.name, text: action.text };
   if (action.name == '釣り') {
+    store.gamestate = 'selectingDie';
+  } else if (action.name == '畑を耕す') {
     store.gamestate = 'selectingDie';
   }
   console.log(action);
