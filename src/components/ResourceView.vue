@@ -1,5 +1,8 @@
 <template>
-  <div v-for="res in resources" :key="res.j">{{ res.j }}:{{ res.num }}</div>
+  資源
+  <div v-for="res in resources" :key="res.j">
+    <span v-if="res.num > 0"> {{ res.j }}:{{ res.num }} </span>
+  </div>
 </template>
 
 <script setup lang="ts">

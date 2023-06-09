@@ -1,10 +1,12 @@
+declare module 'misc';
+
 type Card = {
-    name:string,
-    text:string
-}
+  name: string;
+  text: string;
+};
 
 type Resource = {
-    j:string,
-    num:number,
-    rot:boolean
-}
+  j: string;
+  num: number;
+  rot: boolean;
+};

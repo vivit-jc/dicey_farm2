@@ -2,7 +2,9 @@
   <h2>Dicey Farm 2</h2>
   <q-page class="row items-center justify-evenly">
     <div class="col-2">
-      <q-btn> abc </q-btn>
+      <div>
+        <q-btn> abc </q-btn>
+      </div>
       <ResourceView></ResourceView>
     </div>
     <div class="col-10">

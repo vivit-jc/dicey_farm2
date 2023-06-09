@@ -27,12 +27,7 @@
 import { ref, watch } from 'vue';
 import { useMainStore } from '../stores/main-store';
 import { Notify } from 'quasar';
-import d1 from 'assets/d1.png';
-import d2 from 'assets/d2.png';
-import d3 from 'assets/d3.png';
-import d4 from 'assets/d4.png';
-import d5 from 'assets/d5.png';
-import d6 from 'assets/d6.png';
+import { dice_img, res_find } from './misc';
 
 let dice = ref([] as number[]);
 let store = useMainStore();
@@ -55,12 +50,13 @@ watch(store.selectedAction, (newValue) => {
   selectedAction.value = newValue;
 });
 
+// ダイスがクリックされた時の処理
 function clickDie(i: number) {
   let die = dice.value[i];
   if (store.gamestate == 'selectingDie') {
     const action = store.selectedAction.name;
     if (action == '釣り') {
-      store.resources.fish.num += die;
+      res_find('魚').num += die;
       store.selectedAction.name = '';
       store.gamestate = '';
       store.actionPoint -= 1;
@@ -68,6 +64,7 @@ function clickDie(i: number) {
       if (store.dieForField == 0) {
         store.fields.push('空き');
         store.dieForField = die;
+        store.actionCancelable = false;
       } else if (store.dieForField == die) {
         store.fields.push('空き');
       } else {
@@ -77,10 +74,6 @@ function clickDie(i: number) {
     }
     dice.value.splice(i, 1);
   }
-}
-
-function dice_img(num: number) {
-  return [d1, d2, d3, d4, d5, d6][num - 1];
 }
 </script>
 
