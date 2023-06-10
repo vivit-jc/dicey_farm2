@@ -1,4 +1,5 @@
 declare module 'misc';
+declare module 'ActionLogic';
 
 type Card = {
   name: string;
@@ -8,5 +9,5 @@ type Card = {
 type Resource = {
   j: string;
   num: number;
-  rot: boolean;
+  rot?: boolean;
 };

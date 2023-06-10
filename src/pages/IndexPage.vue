@@ -30,6 +30,9 @@ import FieldsView from 'src/components/FieldsView.vue';
 import FacilityView from 'src/components/FacilityView.vue';
 import WorkerView from 'src/components/WorkerView.vue';
 import ResourceView from 'src/components/ResourceView.vue';
+import { game_init } from '../lib/misc';
+
+game_init();
 </script>
 
 <style scoped>

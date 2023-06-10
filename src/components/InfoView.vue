@@ -7,10 +7,17 @@
         <q-img :src="misc.dice_img(st.dieForField)" class="die" />を使用
       </p>
       <div v-if="selectedAction.name == '種をまく'">
-        <q-btn v-for="seed in getSeedArray()" :key="seed" @click="doSeed(seed)">
+        <q-btn
+          v-for="seed in al.getSeedArray()"
+          :key="seed"
+          @click="al.doSeed(seed)"
+        >
           {{ seed }}({{ misc.res_find(seed).num }})
         </q-btn>
       </div>
+      <p v-if="selectedAction.name == '商人'">
+        あと{{ al.buy_max - st.marchant_count }}回
+      </p>
       <q-btn v-if="showFinishButton()" @click="clickFinishButton">終わる</q-btn>
       <q-btn class="cancel" @click="cancelAction" v-if="st.actionCancelable"
         >✗</q-btn
@@ -25,8 +32,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useMainStore } from '../stores/main-store';
-import { Notify } from 'quasar';
-import * as misc from './misc';
+import * as misc from '../lib/misc';
+import * as al from '../lib/ActionLogic';
 
 let st = useMainStore();
 let selectedAction = ref({} as Card);
@@ -40,33 +47,20 @@ watch(
 
 // アクションを終わるボタンが押された時の処理
 function clickFinishButton() {
-  if (st.selectedAction.name == '畑を耕す') {
+  const action = st.selectedAction.name;
+  if (action == '畑を耕す' || action == '種をまく' || action == '商人') {
     st.selectedAction.name = '';
     st.actionPoint -= 1;
     st.dieForField = 0;
     st.gamestate = '';
     st.actionCancelable = true;
+    st.marchant_count = 0;
   }
-}
-
-function doSeed(seed: string) {
-  misc.res_find(seed).num -= 1;
-  console.log(seed);
-}
-
-function getSeedArray() {
-  let rarray = [] as string[];
-  ['麦の種', '野菜の種', '花の種'].forEach((e) => {
-    if (misc.res_find(e).num > 0) {
-      rarray.push(e);
-    }
-  });
-  return rarray;
 }
 
 function showFinishButton() {
   const action = st.selectedAction.name;
-  if (action == '畑を耕す' || action == '種をまく') {
+  if (action == '畑を耕す' || action == '種をまく' || action == '商人') {
     return true;
   }
   return false;
