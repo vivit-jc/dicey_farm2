@@ -3,7 +3,7 @@
     <div>商人</div>
     <div class="row">
       <q-card v-for="(item, n) in items" :key="item.j" class="item card">
-        <q-img :src="dice_img(n + 1)" class="die" />
+        <q-img :src="dice_img(n + 1)" class="die" /><br />
         {{ item.j }}x{{ item.num }}
       </q-card>
     </div>
@@ -26,17 +26,4 @@ watch(
 );
 </script>
 
-<style scoped>
-.die {
-  height: 40px;
-  max-width: 40px;
-}
-.dice {
-  width: 300px;
-}
-.item {
-  margin: 3px;
-  width: 50px;
-  text-align: center;
-}
-</style>
+<style scoped></style>

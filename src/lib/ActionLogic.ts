@@ -24,6 +24,31 @@ export function getSeedArray() {
   return rarray;
 }
 
+export function shipping(res: Resource) {
+  if (!res.value) {
+    console.error('res.valueがundifinedです');
+    return false;
+  }
+  if (st.rest_count < shipping_max()) {
+    misc.res_find('VP').num += res.value;
+    res.num -= 1;
+    st.rest_count += 1;
+  } else {
+    Notify.create('出荷回数の上限に達しています');
+    return false;
+  }
+}
+
+export function shippableResources() {
+  return st.resources.filter(
+    (res) => res.num > 0 && res.value && res.value > 0
+  );
+}
+
 export function buy_max(): number {
   return 2;
+}
+
+export function shipping_max(): number {
+  return 4;
 }

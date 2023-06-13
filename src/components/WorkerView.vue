@@ -1,15 +1,14 @@
 <template>
-  <div class="box">
-    <div>職人</div>
+  <div class="box" v-if="st.craftsmen.length > 0">
+    <div>契約済みの職人</div>
     <div class="row">
       <q-card
-        v-for="(worker, n) in workers"
-        :key="worker.name"
-        @click="clickWorker(n)"
-        class="card"
+        v-for="c in st.craftsmen"
+        :key="c.name"
+        class="item card"
+        @click="clickCraftsman(c)"
       >
-        {{ worker.name }}<br />
-        {{ worker.text }}
+        {{ c.name }}
       </q-card>
     </div>
   </div>
@@ -19,11 +18,10 @@
 import { ref, watch } from 'vue';
 import { useMainStore } from '../stores/main-store';
 
-let store = useMainStore();
-let workers = ref([{ name: '菓子職人', text: '職人の説明' }] as Card[]);
+let st = useMainStore();
 
-function clickWorker(n: number) {
-  console.log(n);
+function clickCraftsman(c: Card) {
+  st.selectedCraftsman = { name: c.name, text: c.text };
 }
 </script>
 

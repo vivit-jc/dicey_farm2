@@ -13,10 +13,11 @@
         <InfoView class="col"></InfoView>
       </div>
       <ActionView></ActionView>
+      <WorkerView></WorkerView>
       <MarchantView></MarchantView>
       <FieldsView></FieldsView>
       <FacilityView></FacilityView>
-      <WorkerView></WorkerView>
+      <ContractView></ContractView>
     </div>
   </q-page>
 </template>
@@ -28,6 +29,7 @@ import DiceView from 'src/components/DiceView.vue';
 import MarchantView from 'src/components/MarchantView.vue';
 import FieldsView from 'src/components/FieldsView.vue';
 import FacilityView from 'src/components/FacilityView.vue';
+import ContractView from 'src/components/ContractView.vue';
 import WorkerView from 'src/components/WorkerView.vue';
 import ResourceView from 'src/components/ResourceView.vue';
 import { game_init } from '../lib/misc';

@@ -74,14 +74,25 @@ function clickDie(i: number) {
     } else if (action == '商人') {
       const items = st.marchant;
       const buy_max = 2;
-      if (st.marchant_count < buy_max) {
+      if (st.rest_count < buy_max) {
         res_find(items[die - 1].j).num += items[die - 1].num;
-        st.marchant_count += 1;
+        st.rest_count += 1;
         st.actionCancelable = false;
       } else {
         Notify.create('買い物回数の上限に達しています');
         return false;
       }
+    } else if (action == '契約') {
+      const craftsman = st.contractTable[die - 1];
+      if (craftsman.name == '') {
+        Notify.create('その位置に職人はいません');
+        return false;
+      }
+      st.craftsmen.push({ name: craftsman.name, text: craftsman.text });
+      st.contractTable.splice(die - 1, 1, { name: '', text: '' });
+      st.selectedAction.name = '';
+      st.gamestate = '';
+      st.actionPoint -= 1;
     }
     dice.value.splice(i, 1);
   }
@@ -91,10 +102,6 @@ function clickDie(i: number) {
 <style scoped>
 .col {
   padding: 3px;
-}
-.die {
-  height: 40px;
-  max-width: 40px;
 }
 .dice {
   padding: 2% 5%;
