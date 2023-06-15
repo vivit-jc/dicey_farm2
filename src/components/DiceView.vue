@@ -93,6 +93,10 @@ function clickDie(i: number) {
       st.selectedAction.name = '';
       st.gamestate = '';
       st.actionPoint -= 1;
+    } else if (action == '入れ替え') {
+      st.rest_count = die;
+      st.actionCancelable = false;
+      st.gamestate = '';
     }
     dice.value.splice(i, 1);
   }

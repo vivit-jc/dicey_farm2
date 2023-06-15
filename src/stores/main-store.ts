@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    selectedAction: {} as Action,
+    selectedAction: { name: '', text: '' } as Action,
     selectedCraftsman: {} as Craftsman,
     selectedDie: 0,
     dealDice: 5,

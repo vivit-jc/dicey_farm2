@@ -47,7 +47,7 @@ const actions: Action[] = [
     useDice: true,
   },
   {
-    name: '募集',
+    name: '入れ替え',
     text: 'ダイスを1個選び、その数までの職人を取り除く。フリーアクション。',
     free: true,
     useDice: true,

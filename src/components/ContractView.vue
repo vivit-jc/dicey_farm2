@@ -19,88 +19,11 @@
 import { ref, watch } from 'vue';
 import { useMainStore } from '../stores/main-store';
 import * as misc from '../lib/misc';
+import * as init from '../lib/initData';
+import { Notify } from 'quasar';
 
 let st = useMainStore();
-let craftsmanDeck = [
-  { name: '釣り人', text: '釣りで得る魚+3', passive: true },
-  { name: '荷運び', text: '出荷の回数+3', passive: true },
-  {
-    name: '斡旋業者',
-    text: '契約コストが1になる 毎ラウンド何度でも契約を行える',
-    passive: true,
-  },
-  { name: '大工', text: 'どのダイスでも増築できる', passive: true },
-  { name: '行商人', text: '買い物スロットを追加', vendor: true },
-  { name: '家畜商人', text: '買い物スロットを追加', vendor: true },
-  { name: '園芸商人', text: '買い物スロットを追加', vendor: true },
-  { name: '食材商人', text: '買い物スロットを追加', vendor: true },
-  { name: '養蜂家', text: '麦、野菜、花の収穫時に得る種+1', passive: true },
-  { name: '牛飼い', text: '牛がいれば1回で2つの畑を耕せる', passive: true },
-  {
-    name: '羊飼い',
-    text: '毎ラウンド終了時、羊2匹につき追加の羊毛1を得る',
-    passive: true,
-  },
-  { name: '世話人', text: '毎ラウンド開始時、食料2を得る', passive: true },
-  {
-    name: '種まき人',
-    text: '種を蒔くアクションの後、1のダイスを得る',
-    passive: true,
-  },
-  {
-    name: 'パン職人',
-    text: '麦1つを2食料に変えるか、麦2つを2VPに変える',
-    market: true,
-  },
-  {
-    name: '菓子職人',
-    text: '麦、卵、牛乳を9VPに変える',
-    change: true,
-    market: true,
-  },
-  {
-    name: 'ウィスキー職人',
-    text: '麦2つをウィスキーに変える',
-    change: true,
-    market: true,
-  },
-  { name: 'チーズ職人', text: '牛乳を5VPに変える', change: true, market: true },
-  {
-    name: '精肉屋',
-    text: '家畜を肉に変える 鶏:2 羊:4 豚:6 牛:8',
-    market: true,
-  },
-  { name: 'ハム職人', text: '豚を9VPに変える', change: true, market: true },
-  { name: '仕立て屋', text: '3羊毛を6VPに変える', change: true, market: true },
-  { name: '花屋', text: '花を4VPに変える', change: true, market: true },
-  { name: 'ソーセージ職人', text: '肉を2食料か3VPに変える', market: true },
-  {
-    name: '料理人',
-    text: '魚、肉、野菜を10VPに変える',
-    change: true,
-    market: true,
-  },
-  { name: '長老', text: 'ダイス1つの目を+1か-1する', dice: true },
-  { name: '役人', text: 'ダイス1つの目をひっくり返す', dice: true },
-  { name: '夜警', text: 'ダイス1つの目を2か5にする', dice: true },
-  {
-    name: '畜産学者',
-    text: 'ゲーム終了時、鶏、羊、豚、牛のセットが1つにつき20VP',
-    passive: true,
-  },
-  { name: '測量士', text: 'ゲーム終了時、畑が8以上あれば25VP', passive: true },
-  { name: '会計士', text: 'ゲーム終了時、12VPにつき1VP得る', passive: true },
-  {
-    name: 'ツアーガイド',
-    text: 'ゲーム終了時、観光化で20VPを得ていれば10VP',
-    passive: true,
-  },
-  {
-    name: '牧師',
-    text: 'ゲーム終了時、物乞いを5回まで無視する',
-    passive: true,
-  },
-] as Craftsman[];
+let craftsmanDeck = init.craftsmanDeck;
 
 misc.shuffle(craftsmanDeck);
 st.craftsmanDeck = craftsmanDeck;
@@ -108,7 +31,20 @@ st.contractTable = st.craftsmanDeck.splice(0, 6);
 
 function clickCraftsman(n: number) {
   const c = st.contractTable[n];
-  st.selectedCraftsman = { name: c.name, text: c.text };
+  if (st.selectedAction.name == '入れ替え' && st.rest_count > 0) {
+    if (st.contractTable[n].name == '') {
+      Notify.create('すでに取り除かれています');
+    } else {
+      st.contractTable[n] = { name: '', text: '' };
+      st.rest_count -= 1;
+      if (st.rest_count == 0) {
+        st.selectedAction.name = '';
+        st.actionCancelable = true;
+      }
+    }
+  } else if (st.selectedAction.name == '') {
+    st.selectedCraftsman = { name: c.name, text: c.text };
+  }
 }
 </script>
 

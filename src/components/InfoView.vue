@@ -25,7 +25,12 @@
           >{{ res.j }}({{ res.num }}):{{ res.value }}VP</q-btn
         >
       </p>
-
+      <p v-if="info.name == '入れ替え' && st.rest_count > 0">
+        あと{{ st.rest_count }}回
+      </p>
+      <p v-if="info.name == '入れ替え' && st.rest_count == 0">
+        （ダイスを選んでください。）
+      </p>
       <q-btn v-if="showFinishButton()" @click="clickFinishButton">終わる</q-btn>
       <q-btn class="cancel" @click="cancelAction" v-if="st.actionCancelable"
         >✗</q-btn
@@ -73,7 +78,6 @@ function clickFinishButton() {
     st.rest_count = 0;
     if (action.num) {
       st.disableAction.push(action.name);
-      console.log(st.disableAction);
     }
     st.selectedAction.name = '';
   }
@@ -87,7 +91,7 @@ function showFinishButton() {
 }
 
 function useFinishButton(action: string) {
-  const array = ['畑を耕す', '種をまく', '商人', '出荷'];
+  const array = ['畑を耕す', '種をまく', '商人', '出荷', '入れ替え'];
   if (array.find((e) => e == action)) {
     return true;
   } else {
