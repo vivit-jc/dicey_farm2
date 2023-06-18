@@ -31,6 +31,19 @@
       <p v-if="info.name == '入れ替え' && st.rest_count == 0">
         （ダイスを選んでください。）
       </p>
+      <p v-if="info.name == '増築' && st.gamestate == 'selectingDie'">
+        （ダイスを選んでください。）
+      </p>
+      <p v-if="info.name == '増築' && st.gamestate == 'selectingFacility'">
+        （建設する設備を選んでください。）
+      </p>
+      <p
+        v-if="
+          st.selectedFacility.name != '' && st.gamestate == 'selectingFacility'
+        "
+      >
+        <q-btn @click="al.buildFacility()">建設</q-btn>
+      </p>
       <q-btn v-if="showFinishButton()" @click="clickFinishButton">終わる</q-btn>
       <q-btn class="cancel" @click="cancelAction" v-if="st.actionCancelable"
         >✗</q-btn
@@ -62,6 +75,15 @@ watch(
   () => st.selectedCraftsman,
   (newValue) => {
     info.value = newValue;
+  }
+);
+
+watch(
+  () => st.selectedFacility,
+  (newValue) => {
+    if (newValue.name != '') {
+      info.value = newValue;
+    }
   }
 );
 
@@ -124,7 +146,8 @@ function cancelAction() {
 }
 .cancel {
   position: absolute;
-  right: 0;
-  bottom: 70%;
+  right: 0%;
+  top: 0%;
+  width: 30px;
 }
 </style>

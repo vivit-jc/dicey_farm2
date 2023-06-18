@@ -1,6 +1,7 @@
 import { useMainStore } from '../stores/main-store';
 import * as misc from './misc';
 import { Notify } from 'quasar';
+import * as init from './initData';
 
 const st = useMainStore();
 
@@ -36,6 +37,23 @@ export function shipping(res: Resource) {
   } else {
     Notify.create('出荷回数の上限に達しています');
     return false;
+  }
+}
+
+export function buildFacility() {
+  const facility = st.selectedFacility;
+  const facilities = init.facilities;
+  const n = facilities.findIndex((e) => e.name == facility.name);
+  if (st.existFacility[n]) {
+    Notify.create('すでに建設済みです');
+    return false;
+  } else {
+    st.existFacility[n] = true;
+    st.selectedAction.name = '';
+    st.gamestate = '';
+    st.actionPoint -= 1;
+    st.selectedFacility.name = '';
+    st.actionCancelable = true;
   }
 }
 

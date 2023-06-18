@@ -97,6 +97,16 @@ function clickDie(i: number) {
       st.rest_count = die;
       st.actionCancelable = false;
       st.gamestate = '';
+    } else if (action == '増築') {
+      //st.selectedAction.name = '';
+      if (die != 6) {
+        Notify.create('選べるのは6のみです');
+        return false;
+      }
+      st.actionCancelable = false;
+      st.selectedFacility = { name: '', text: '', ftype: '' };
+      st.gamestate = 'selectingFacility';
+      //st.actionPoint -= 1;
     }
     dice.value.splice(i, 1);
   }

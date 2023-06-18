@@ -24,6 +24,12 @@ type Craftsman = {
   vendor?: boolean;
 };
 
+type Facility = {
+  name: string;
+  text: string;
+  ftype: string;
+};
+
 type Resource = {
   j: string;
   num: number;

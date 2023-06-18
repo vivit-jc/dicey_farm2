@@ -4,6 +4,7 @@ export const useMainStore = defineStore('main', {
   state: () => ({
     selectedAction: { name: '', text: '' } as Action,
     selectedCraftsman: {} as Craftsman,
+    selectedFacility: {} as Facility,
     selectedDie: 0,
     dealDice: 5,
     gamestate: '' as string,
@@ -12,6 +13,7 @@ export const useMainStore = defineStore('main', {
     actionCancelable: true,
     rest_count: 0,
     disableAction: [] as string[],
+    existFacility: [false, true, false, false, false, false] as boolean[],
     resources: [
       { j: 'VP', num: 0, rot: false, value: 0 },
       { j: '食料', num: 0, rot: true, value: 0 },
